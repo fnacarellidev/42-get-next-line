@@ -6,14 +6,13 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:30:28 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 21:40:40 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 23:22:17 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
-#define BUFFER_SIZE 1
 
 char	*fd_analysis(int fd, char *static_str);
 char	*get_line(char *str);
@@ -24,7 +23,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 	char		*new_line;
 
-	if (fd <= 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	str = fd_analysis(fd, str);
 	if (!ft_strlen(str))
@@ -41,7 +40,7 @@ char	*fd_analysis(int fd, char *static_str)
 {
 	char	*buf;
 	int		read_val;
-	
+
 	buf = malloc(BUFFER_SIZE + 1);
 	while (!ft_strchr(static_str, '\n'))
 	{
@@ -49,7 +48,7 @@ char	*fd_analysis(int fd, char *static_str)
 		if (read_val <= 0)
 		{
 			free(buf);
-			return (NULL);
+			return (static_str);
 		}
 		buf[read_val] = '\0';
 		static_str = ft_strjoin(static_str, buf);
@@ -117,20 +116,4 @@ char	*update_main_string(char *outdated_string)
 	updated_string[j] = '\0';
 	free(outdated_string);
 	return (updated_string);
-}
-
-
-int		main(void)
-{
-	int		fd;
-	char	*str;
-
-	fd = open("hardtesting.txt", O_RDONLY);
-	for (int i = 0; i < 1; i++)
-	{
-		str = get_next_line(fd);
-		printf("%s", str);
-		free(str);
-	}
-	close(fd);
 }

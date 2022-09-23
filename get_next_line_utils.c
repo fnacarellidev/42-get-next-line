@@ -6,7 +6,7 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:14 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/22 12:44:39 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 20:10:53 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -16,9 +16,13 @@ size_t	ft_strlen(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	if (str)
+	{
+		while (str[i])
+			i++;
+		return (i);
+	}
+	return (0);
 }
 
 void	ft_strcpy(char *dest, const char *src)
@@ -28,35 +32,61 @@ void	ft_strcpy(char *dest, const char *src)
 
 	i = 0;
 	dest_len = ft_strlen(dest);
-	while (*(src + i))
+	if (src)
 	{
-		*(dest + dest_len + i) = *(src + i);
-		i++;
+		while (*(src + i))
+		{
+			*(dest + dest_len + i) = *(src + i);
+			i++;
+		}
 	}
 }
 
 char	*ft_strjoin(char *str, char *buf)
 {
 	char	*finalstr;
-	int		received_null_str;
 
-	received_null_str = 0;
 	if (!str)
 	{
 		str = malloc(1 * sizeof(char));
 		str[0] = '\0';
-		received_null_str = 1;
 	}
 	if (!str || !buf)
 		return (NULL);
-	finalstr = ft_calloc(1, ft_strlen(str) + ft_strlen(buf) + 1);
+	finalstr = ft_calloc(sizeof(char), ft_strlen(str) + ft_strlen(buf) + 1);
 	if (!finalstr)
 		return (NULL);
+	finalstr[0] = '\0';
 	ft_strcpy(finalstr, str);
 	ft_strcpy(finalstr, buf);
 	*(finalstr + ft_strlen(str) + ft_strlen(buf)) = '\0';
 	free(str);
 	return (finalstr);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	int			i;
+	const char	*first_occurence;
+
+	i = 0;
+	first_occurence = 0;
+	if (s)
+	{
+		while (*(s + i))
+		{
+			if (*(s + i) == (unsigned char) c)
+			{
+				first_occurence = (s + i);
+				return ((char *) first_occurence);
+			}
+			i++;
+		}
+		if (c == 0)
+			first_occurence = (s + ft_strlen(s));
+		return ((char *) first_occurence);
+	}
+	return (NULL);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
@@ -76,15 +106,4 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		i++;
 	}
 	return (ptr);
-}
-
-int	has_newline(char *str)
-{
-	while (*str)
-	{
-		if (*str == '\n')
-			return (1);
-		str++;
-	}
-	return (0);
 }

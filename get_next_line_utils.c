@@ -6,7 +6,7 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 12:43:14 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 20:10:53 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 22:57:09 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -56,7 +56,6 @@ char	*ft_strjoin(char *str, char *buf)
 	finalstr = ft_calloc(sizeof(char), ft_strlen(str) + ft_strlen(buf) + 1);
 	if (!finalstr)
 		return (NULL);
-	finalstr[0] = '\0';
 	ft_strcpy(finalstr, str);
 	ft_strcpy(finalstr, buf);
 	*(finalstr + ft_strlen(str) + ft_strlen(buf)) = '\0';

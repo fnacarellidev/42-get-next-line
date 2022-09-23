@@ -6,13 +6,10 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:30:28 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 23:22:17 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 23:55:39 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <unistd.h>
-#include <stdio.h>
 
 char	*fd_analysis(int fd, char *static_str);
 char	*get_line(char *str);

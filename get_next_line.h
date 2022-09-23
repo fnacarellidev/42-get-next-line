@@ -6,13 +6,14 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 18:22:56 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 23:34:24 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 23:53:23 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
+# include <unistd.h>
 
 size_t	ft_strlen(char *str);
 void	ft_strcpy(char *dest, const char *src);

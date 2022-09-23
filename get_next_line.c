@@ -6,7 +6,7 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:30:28 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 20:27:47 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/23 21:40:40 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -16,8 +16,8 @@
 #define BUFFER_SIZE 1
 
 char	*fd_analysis(int fd, char *static_str);
-char	*filter(char *str);
-char	*fix_static_string(char *str);
+char	*get_line(char *str);
+char	*update_main_string(char *s);
 
 char	*get_next_line(int fd)
 {
@@ -31,11 +31,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	else
 	{
-		new_line = filter(str);
-		str = fix_static_string(str);
+		new_line = get_line(str);
+		str = update_main_string(str);
 	}
 	return (new_line);
-
 }
 
 char	*fd_analysis(int fd, char *static_str)
@@ -43,7 +42,6 @@ char	*fd_analysis(int fd, char *static_str)
 	char	*buf;
 	int		read_val;
 	
-	read_val = 1;
 	buf = malloc(BUFFER_SIZE + 1);
 	while (!ft_strchr(static_str, '\n'))
 	{
@@ -65,68 +63,62 @@ char	*fd_analysis(int fd, char *static_str)
 	return (static_str);
 }
 
-char	*fix_static_string(char *str)
-{
-	int		j;
-	size_t	i;
-	size_t	str_len;
-	char	*fixed_string;
-
-	if (str)
-	{
-		i = 0;
-		j = 0;
-		str_len = ft_strlen(str);
-		while (str[i] != '\n' && str[i])
-			i++;
-		if (str[i] == '\n')
-			i++;
-		if (i == str_len)
-		{
-			free(str);
-			return (NULL);
-		}
-		fixed_string = malloc(str_len - i + 1);
-		while (str[i + j])
-		{
-			fixed_string[j] = str[i + j];
-			j++;
-		}
-		fixed_string[j] = '\0';
-		free(str);
-		return (fixed_string);
-	}
-	return (NULL);
-}
-
-char	*filter(char *str)
+char	*get_line(char *str)
 {
 	int		i;
+	char	*line;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] != '\n' && str[i] != '\0')
+		i++;
+	if (str[i] == '\n')
+		i++;
+	line = malloc(i + 1);
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
+	{
+		line[i] = str[i];
+		i++;
+	}
+	if (str[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return (line);
+}
+
+char	*update_main_string(char *outdated_string)
+{
 	int		j;
-	char	*filtered_string;
+	char	*updated_string;
+	size_t	i;
+	size_t	len_old_string;
 
 	i = 0;
 	j = 0;
-	if (str[i])
+	if (!outdated_string)
+		return (NULL);
+	len_old_string = ft_strlen(outdated_string);
+	while (outdated_string[i] != '\n' && outdated_string[i] != '\0')
+		i++;
+	if (outdated_string[i] == '\n')
+		i++;
+	updated_string = malloc(len_old_string - i + 1);
+	if (!updated_string)
+		return (NULL);
+	while (outdated_string[i + j])
 	{
-		while (str[i] != '\n' && str[i])
-			i++;
-		if (str[i] == '\n')
-		{
-			i++;
-			filtered_string = malloc(i + 1);
-			while (str[j] != '\n')
-			{
-				filtered_string[j] = str[j];
-				j++;
-			}
-			filtered_string[j] = '\n';
-			filtered_string[j + 1] = '\0';
-			return (filtered_string);
-		}
+		updated_string[j] = outdated_string[i + j];
+		j++;
 	}
-	return (NULL);
+	updated_string[j] = '\0';
+	free(outdated_string);
+	return (updated_string);
 }
+
 
 int		main(void)
 {
@@ -134,10 +126,10 @@ int		main(void)
 	char	*str;
 
 	fd = open("hardtesting.txt", O_RDONLY);
-	for (int i = 0; i <= 10; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		str = get_next_line(fd);
-		printf("%s\n", str);
+		printf("%s", str);
 		free(str);
 	}
 	close(fd);

@@ -6,7 +6,7 @@
 /*   By: fnacarel <fnacarel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 20:30:28 by fnacarel          #+#    #+#             */
-/*   Updated: 2022/09/23 23:55:39 by fnacarel         ###   ########.fr       */
+/*   Updated: 2022/09/27 16:25:51 by fnacarel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -24,7 +24,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	str = fd_analysis(fd, str);
 	if (!ft_strlen(str))
+	{
+		free(str);
 		return (NULL);
+	}
 	else
 	{
 		new_line = get_line(str);
